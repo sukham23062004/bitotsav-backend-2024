@@ -27,7 +27,10 @@ const limiter = rateLimit({
 
 app.set("trust proxy", 1);
 // app.use(limiter);
-app.use(cors());
+const corsOptions = {
+  origin: "https://bitotsav2024-jade.vercel.app",
+};
+app.use(cors(corsOptions));
 // app.use(cors({ origin: ALLOWED_ORIGINS }));
 app.use(
   helmet({
