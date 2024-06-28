@@ -4,7 +4,6 @@ const dotenv = require("dotenv");
 const xss = require("xss-clean");
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const rateLimit = require("express-rate-limit");
 const mongoSanitize = require("express-mongo-sanitize");
 const AppError = require("./utils/appError");
 const userRouter = require("./route/userRoute");
@@ -21,9 +20,9 @@ const app = express();
 
 app.set("trust proxy", 1);
 
-// Define CORS options
+// Define CORS options to allow all origins
 const corsOptions = {
-  origin: "https://bitotsav2024.vercel.app", // Replace with your frontend URL
+  origin: "*", // Allow all origins
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
@@ -31,22 +30,10 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Security middlewares
-app.use(
-  helmet({
-    crossOriginResourcePolicy: { policy: "cross-origin" },
-  })
-);
+// Security middlewares without crossOriginResourcePolicy
+app.use(helmet());
 app.use(mongoSanitize());
 app.use(xss());
-
-// Rate limiting
-const limiter = rateLimit({
-  max: 100, // Limit each IP to 100 requests per windowMs
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  message: "Too many requests from this IP, please try again later",
-});
-app.use("/api", limiter);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
