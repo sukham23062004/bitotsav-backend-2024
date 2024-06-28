@@ -1,4 +1,4 @@
-const cors = require("cors");
+// const cors = require("cors");
 const helmet = require("helmet");
 const dotenv = require("dotenv");
 const xss = require("xss-clean");
@@ -21,14 +21,14 @@ const app = express();
 app.set("trust proxy", 1);
 
 // Define CORS options to allow all origins
-const corsOptions = {
-  origin: "*", // Allow all origins
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-  optionsSuccessStatus: 204,
-};
+// const corsOptions = {
+//   origin: "*", // Allow all origins
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   credentials: true,
+//   optionsSuccessStatus: 204,
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 // Security middlewares without crossOriginResourcePolicy
 app.use(helmet());
