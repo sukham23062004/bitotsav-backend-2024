@@ -10,15 +10,8 @@ const { ensurePublicFolder } = require("./utils/public");
 const DB = process.env.DATABASE;
 const PORT = process.env.PORT || 5000;
 
-process.on("uncaughtException", (err) => {
-  console.log(`Error:  ${err.message}`);
-  console.log(`Shutting down the server  due to  uncaught Exception `);
-  process.exit(1);
-});
-
 ensurePublicFolder();
 
-let server;
 mongoose.set("strictQuery", true);
 mongoose
   .connect(DB, {
@@ -30,11 +23,3 @@ mongoose
       console.log(`Server is listening on http://localhost:${PORT}`);
     });
   });
-
-process.on("unhandledRejection", (err) => {
-  console.log(`Error:  ${err.message}`);
-  console.log(`Shutting down the server  due to unhandled  promise rejection `);
-  server?.close(() => {
-    process.exit(1);
-  });
-});
